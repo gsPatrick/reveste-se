@@ -1,0 +1,94 @@
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
+
+.loginSection {
+  padding: 4rem 0;
+  background-color: var(--color-background);
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.loginContainer {
+  max-width: 28rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--color-foreground);
+}
+
+.loginForm {
+  background-color: var(--color-card);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--color-foreground);
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: border-color var(--transition-base);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.submitButton:hover {
+  background-color: var(--color-primary-light);
+}
+
+.signupText {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: var(--color-muted-foreground);
+}
+
+.signupLink {
+  color: var(--color-primary);
+  font-weight: 600;
+  transition: color var(--transition-base);
+}
+
+.signupLink:hover {
+  color: var(--color-primary-light);
+}

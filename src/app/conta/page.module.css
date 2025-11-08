@@ -1,0 +1,77 @@
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
+
+.contaSection {
+  padding: 4rem 0;
+  background-color: var(--color-background);
+  min-height: 60vh;
+}
+
+.pageTitle {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: var(--color-foreground);
+}
+
+.accountGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 64rem;
+}
+
+@media (min-width: 768px) {
+  .accountGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.accountCard {
+  background-color: var(--color-card);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--transition-base);
+}
+
+.accountCard:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--color-foreground);
+}
+
+.cardDescription {
+  color: var(--color-muted-foreground);
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.cardButton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.cardButton:hover {
+  background-color: var(--color-primary-light);
+}

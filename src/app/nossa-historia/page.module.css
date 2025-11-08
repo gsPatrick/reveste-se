@@ -1,0 +1,240 @@
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
+
+/* Hero Section */
+.heroSection {
+  position: relative;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heroImageWrapper {
+  position: absolute;
+  inset: 0;
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(128, 0, 32, 0.6);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  text-align: center;
+  color: var(--color-primary-foreground);
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* História Section */
+.historiaSection {
+  padding: 4rem 0;
+  background-color: var(--color-background);
+}
+
+.historiaContent {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--color-foreground);
+}
+
+.textContent {
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+.paragraph {
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+  font-size: 1.125rem;
+}
+
+.quote {
+  border-left: 4px solid var(--color-accent);
+  padding-left: 1.5rem;
+  font-style: italic;
+  font-size: 1.25rem;
+  margin: 2rem 0;
+  color: var(--color-muted-foreground);
+  font-family: 'Cinzel', serif;
+}
+
+/* Sustentabilidade Section */
+.sustentabilidadeSection {
+  padding: 4rem 0;
+  background-color: var(--color-muted);
+}
+
+.sustentabilidadeContent {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  text-align: center;
+  color: var(--color-muted-foreground);
+  margin-bottom: 3rem;
+}
+
+.impactoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .impactoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.imageContainer {
+  position: relative;
+  height: 300px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.valoresGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .valoresGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.valorCard {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--color-background);
+  border-radius: var(--radius-lg);
+}
+
+.valorIcon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1rem;
+  background-color: rgba(184, 134, 11, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-accent);
+}
+
+.valorTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-foreground);
+}
+
+.valorDescription {
+  color: var(--color-muted-foreground);
+  line-height: 1.6;
+}
+
+.curadoriaBox {
+  background-color: var(--color-background);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+}
+
+.curadoriaTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--color-foreground);
+}
+
+/* CTA Section */
+.ctaSection {
+  padding: 4rem 0;
+  background-color: var(--color-background);
+}
+
+.ctaContent {
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.ctaDescription {
+  font-size: 1.25rem;
+  color: var(--color-muted-foreground);
+  margin-bottom: 2rem;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 0.875rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.ctaButton:hover {
+  background-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}

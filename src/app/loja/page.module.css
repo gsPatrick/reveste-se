@@ -1,0 +1,52 @@
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
+
+.heroSection {
+  padding: 4rem 0 2rem;
+  background-color: var(--color-background);
+  text-align: center;
+}
+
+.pageTitle {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+
+.pageDescription {
+  font-size: 1.25rem;
+  color: var(--color-muted-foreground);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.produtosSection {
+  padding: 3rem 0 4rem;
+  background-color: var(--color-background);
+}
+
+.produtosGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .produtosGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .produtosGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
