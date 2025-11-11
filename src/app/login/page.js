@@ -1,25 +1,54 @@
-import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer/Footer";
-import Link from "next/link";
-import styles from "./page.module.css";
+"use client";
 
-export const metadata = {
-  title: "Login | ReVeste-se",
-  description: "Faça login na sua conta ReVeste-se.",
-};
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
+import styles from './page.module.css';
 
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const user = await login(email, password);
+      
+      // Redirecionamento baseado no tipo de usuário
+      if (user.tipo === 'admin') {
+        router.push('/admin');
+      } else {
+        router.push('/conta');
+      }
+    } catch (err) {
+      setError(err.message || 'Falha no login. Verifique suas credenciais.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className={styles.pageWrapper}>
       <Header />
-      
       <main className={styles.main}>
         <section className={styles.loginSection}>
           <div className="container">
             <div className={styles.loginContainer}>
               <h1 className={styles.pageTitle}>Entrar</h1>
               
-              <form className={styles.loginForm}>
+              <form onSubmit={handleSubmit} className={styles.loginForm}>
+                {error && <p className={styles.errorText}>{error}</p>}
+                
                 <div className={styles.formGroup}>
                   <label htmlFor="email" className={styles.label}>Email</label>
                   <input 
@@ -27,6 +56,9 @@ export default function Login() {
                     id="email" 
                     className={styles.input}
                     placeholder="seu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </div>
                 
@@ -37,11 +69,14 @@ export default function Login() {
                     id="password" 
                     className={styles.input}
                     placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                 </div>
                 
-                <button type="submit" className={styles.submitButton}>
-                  Entrar
+                <button type="submit" className={styles.submitButton} disabled={isLoading}>
+                  {isLoading ? 'Entrando...' : 'Entrar'}
                 </button>
               </form>
               
@@ -52,7 +87,6 @@ export default function Login() {
           </div>
         </section>
       </main>
-      
       <Footer />
     </div>
   );

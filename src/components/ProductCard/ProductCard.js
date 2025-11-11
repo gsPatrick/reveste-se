@@ -3,16 +3,26 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useModal } from "@/context/ModalContext";
+import { ShoppingCart } from "lucide-react";
 import styles from "./ProductCard.module.css";
 
 export default function ProductCard({ produto }) {
+  const { openModal } = useModal();
+
+  const handleOpenModal = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openModal(produto);
+  };
+
   return (
     <motion.div
       className={styles.card}
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
     >
-      <Link href={`/produto/${produto.id}`} className={styles.imageLink}>
+      <Link href={`/produto/${produto.slug || produto.id}`} className={styles.imageLink}>
         <div className={styles.imageWrapper}>
           <Image
             src={produto.imagem}
@@ -24,17 +34,19 @@ export default function ProductCard({ produto }) {
       </Link>
       
       <div className={styles.content}>
-        <p className={styles.category}>{produto.categoria}</p>
+        <p className={styles.category}>{produto.categoria?.nome || 'Sem Categoria'}</p>
         <h3 className={styles.name}>{produto.nome}</h3>
         <p className={styles.price}>
-          R$ {produto.preco.toFixed(2)}
+          {/* --- CORREÇÃO APLICADA AQUI --- */}
+          R$ {(parseFloat(produto.preco) || 0).toFixed(2)}
         </p>
       </div>
       
       <div className={styles.footer}>
-        <Link href={`/produto/${produto.id}`} className={styles.button}>
-          Ver Detalhes
-        </Link>
+        <button onClick={handleOpenModal} className={styles.button}>
+          <ShoppingCart size={16} />
+          Adicionar ao Carrinho
+        </button>
       </div>
     </motion.div>
   );

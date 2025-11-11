@@ -1,0 +1,28 @@
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  border-radius: var(--radius-md);
+  color: var(--color-primary-foreground);
+  font-weight: 500;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+}
+
+.toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -10px);
+}
+
+.toast.success {
+  background-color: var(--color-primary);
+}
+
+.toast.error {
+  background-color: #dc3545; /* Cor de erro */
+}

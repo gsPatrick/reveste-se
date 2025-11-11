@@ -1,0 +1,24 @@
+.listContainer {
+  background-color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.listContainer ul { list-style: none; }
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0.5rem;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s;
+}
+.listItem:hover { background-color: #f9fafb; }
+.itemName { font-weight: 500; }
+.itemMeta { font-size: 0.8rem; color: #6b7280; }
+.itemValue { font-weight: 600; font-size: 0.9rem; }

@@ -1,0 +1,44 @@
+/* Overlay e Modal (reutilizável, mas com ajustes) */
+.overlay { position: fixed; inset: 0; background-color: rgba(10, 10, 20, 0.7); z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal { background-color: #fff; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); width: 95%; max-width: 800px; display: flex; flex-direction: column; max-height: 90vh; animation: slideIn 0.4s ease; }
+@keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Header e Footer */
+.header, .footer { padding: 1rem 1.5rem; border-color: #f0f0f0; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.header { border-bottom: 1px solid #f0f0f0; }
+.header h2 { font-size: 1.25rem; font-weight: 600; }
+.closeButton { color: #9ca3af; }
+
+.footer { background-color: #f9fafb; border-top: 1px solid #f0f0f0; }
+.saveButton { background-color: var(--color-primary); color: #fff; padding: 0.6rem 1.2rem; border-radius: var(--radius-md); font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; }
+.saveButton:disabled { opacity: 0.6; cursor: not-allowed; }
+.spinner { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Conteúdo */
+.content { padding: 1.5rem; overflow-y: auto; flex-grow: 1; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; border-bottom: 1px solid #f0f0f0; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+.section { font-size: 0.9rem; color: #374151; }
+.sectionTitle { font-weight: 600; margin-bottom: 0.75rem; font-size: 1rem; color: #111827; }
+
+/* Lista de Itens */
+.itemList { display: flex; flex-direction: column; gap: 1rem; }
+.item { display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 1rem; }
+.item img { width: 64px; height: 64px; object-fit: cover; border-radius: var(--radius-md); }
+.itemName { font-weight: 600; }
+.itemMeta { font-size: 0.8rem; color: #6b7280; }
+.itemTotal { font-weight: 600; }
+
+/* Resumo de Valores */
+.summary { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #f0f0f0; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+.summary div { font-size: 0.9rem; }
+.summary span { font-weight: 600; min-width: 80px; text-align: right; display: inline-block; }
+.discount { color: #059669; }
+.total { font-size: 1.1rem; font-weight: 600; margin-top: 0.5rem; }
+.total span { font-size: 1.25rem; }
+
+/* Atualizador de Status */
+.statusUpdater { display: flex; align-items: center; gap: 0.75rem; }
+.statusUpdater label { font-weight: 500; }
+.statusUpdater select { padding: 0.5rem; border: 1px solid #d1d5db; border-radius: var(--radius-md); }

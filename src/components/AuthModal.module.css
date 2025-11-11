@@ -1,0 +1,29 @@
+.overlay { position: fixed; inset: 0; background-color: rgba(10, 10, 20, 0.7); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal { background-color: #fff; border-radius: 12px; box-shadow: var(--shadow-xl); width: 90%; max-width: 450px; position: relative; animation: slideIn 0.4s ease; }
+@keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.closeButton { position: absolute; top: 1rem; right: 1rem; color: #9ca3af; }
+
+.tabs { display: flex; border-bottom: 1px solid #e5e7eb; }
+.tabs button {
+  flex: 1; padding: 1rem; font-weight: 600; color: #6b7280;
+  border-bottom: 2px solid transparent; transition: all 0.2s;
+}
+.tabs .activeTab { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+.content { padding: 2rem; }
+.formGroup { margin-bottom: 1.5rem; }
+.formGroup label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+.formGroup input { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: var(--radius-md); }
+.submitButton {
+  width: 100%; padding: 0.875rem; font-size: 1rem; font-weight: 600;
+  background-color: var(--color-primary); color: #fff; border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.submitButton:disabled { opacity: 0.7; }
+.spinner { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.errorText { color: #dc3545; background-color: #f8d7da; padding: 0.75rem; margin-bottom: 1rem; border-radius: var(--radius-md); font-size: 0.9rem; }

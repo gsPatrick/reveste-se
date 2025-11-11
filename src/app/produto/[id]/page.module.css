@@ -137,6 +137,13 @@
   color: var(--color-primary-foreground);
 }
 
+/* ESTILO CRÍTICO PARA O FEEDBACK VISUAL */
+.tamanhoButtonActive {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
 .addButton {
   width: 100%;
   padding: 1rem;
@@ -164,4 +171,283 @@
 
 .backLink:hover {
   color: var(--color-primary-light);
+}
+
+/* --- ESTILOS DA SEÇÃO DE AVALIAÇÕES --- */
+
+.avaliacoesSection {
+  padding: 3rem 0;
+  background-color: var(--color-background);
+}
+
+.sectionTitle {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-foreground);
+  margin-bottom: 2rem;
+}
+
+.avaliacoesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .avaliacoesGrid {
+    grid-template-columns: 300px 1fr;
+  }
+}
+
+.sumarioContainer {
+  width: 100%;
+}
+
+.sumarioBox {
+  background-color: var(--color-muted);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+}
+
+.averageRating {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+
+.starRating {
+  display: flex;
+  gap: 0.25rem;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.starIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.starIconSmall {
+  width: 1rem;
+  height: 1rem;
+}
+
+.totalReviews {
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  margin-bottom: 1.5rem;
+}
+
+.ratingFilters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filterButton, .filterButtonActive {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.filterButton {
+  background-color: transparent;
+  color: var(--color-foreground);
+}
+
+.filterButton:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.filterButtonActive {
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+.listaAvaliacoes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.reviewCard {
+  background-color: var(--color-card);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.reviewAuthor {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.verifiedPurchase {
+  background-color: #d4edda;
+  color: #155724;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.reviewDate {
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+}
+
+.reviewTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+.reviewComment {
+  font-size: 0.95rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.6;
+}
+
+.reviewFooter {
+  margin-top: 1rem;
+}
+
+.helpfulButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.helpfulButton:hover {
+  background-color: var(--color-muted);
+  color: var(--color-foreground);
+}
+
+/* Formulário */
+.formContainer {
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+
+.formSubtitle {
+  color: var(--color-muted-foreground);
+  margin-bottom: 1.5rem;
+}
+
+.reviewForm {
+  background-color: var(--color-card);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--color-foreground);
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: border-color var(--transition-base);
+  font-family: 'Poppins', sans-serif;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.starRatingInput {
+  display: flex;
+  gap: 0.5rem;
+  color: var(--color-accent);
+}
+
+.starIconInput {
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.formGroupCheckbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.checkboxLabel {
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.submitButton:hover {
+  background-color: var(--color-primary-light);
 }

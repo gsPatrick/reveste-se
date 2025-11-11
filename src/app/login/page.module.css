@@ -92,3 +92,16 @@
 .signupLink:hover {
   color: var(--color-primary-light);
 }
+
+
+/* ... (estilos anteriores da página de login) */
+
+.errorText {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+}

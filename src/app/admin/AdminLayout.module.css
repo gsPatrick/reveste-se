@@ -1,0 +1,21 @@
+.adminWrapper {
+  display: flex;
+  height: 100vh;
+  background-color: #f9fafb; /* Um cinza bem claro para o fundo */
+}
+
+.mainContent {
+  flex: 1;
+  overflow-y: auto; /* Permite scroll no conteúdo principal */
+  padding: 2rem;
+}
+
+.loadingScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  font-size: 1.25rem;
+  font-weight: 500;
+}

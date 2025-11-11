@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
+import { useCart } from "@/context/CartContext";
 import styles from "./Header.module.css";
 
 export default function Header() {
+  const { cartItems } = useCart();
+
   return (
     <header className={styles.header}>
       <div className="container">
@@ -31,6 +34,9 @@ export default function Header() {
           <div className={styles.actions}>
             <Link href="/carrinho" className={styles.cartButton}>
               <ShoppingCart className={styles.cartIcon} />
+              {cartItems.length > 0 && (
+                <span className={styles.cartCount}>{cartItems.length}</span>
+              )}
               <span className="sr-only">Carrinho</span>
             </Link>
             <Link href="/conta" className={styles.accountButton}>

@@ -1,0 +1,20 @@
+.container {
+  background-color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+.tooltip {
+  background-color: rgba(17, 24, 39, 0.8);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+.tooltipLabel { font-weight: 600; }
+.tooltipValue { font-size: 0.9rem; }

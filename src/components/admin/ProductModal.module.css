@@ -1,0 +1,135 @@
+/* === ESTRUTURA E ANIMAÇÃO DO MODAL === */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(10, 10, 20, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px) saturate(90%);
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 15px rgba(0, 0, 0, 0.07);
+  width: 95%;
+  max-width: 900px;
+  display: flex; /* <<-- Mantém o modal como um contêiner flexível */
+  flex-direction: column;
+  max-height: 90vh;
+  animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* Garante que os cantos arredondados sejam respeitados */
+}
+@keyframes slideIn {
+  from { transform: translateY(-30px) scale(0.97); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* --- CORREÇÃO ESTRUTURAL CRÍTICA PARA O SCROLL --- */
+/* O formulário agora também é um contêiner flexível que preenche o modal */
+.modal form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Faz o form ocupar todo o espaço vertical disponível */
+  min-height: 0; /* Impede que o form cresça infinitamente, forçando o scroll a aparecer no .content */
+}
+/* ------------------------------------------------ */
+
+/* === CABEÇALHO E RODAPÉ FIXOS === */
+.header, .footer {
+  padding: 1rem 1.5rem;
+  border-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0; /* Impede que o header e footer encolham */
+}
+.header { border-bottom: 1px solid #f0f0f0; }
+.header h2 { font-size: 1.25rem; font-weight: 600; color: #111827; }
+.closeButton { color: #9ca3af; transition: color 0.2s, transform 0.2s; }
+.closeButton:hover { color: var(--color-primary); transform: rotate(90deg); }
+
+.footer {
+  background-color: #f9fafb;
+  border-top: 1px solid #f0f0f0;
+}
+.footerActions { display: flex; gap: 0.75rem; }
+
+/* === ÁREA DE CONTEÚDO ROLÁVEL (AGORA FUNCIONA) === */
+.content {
+  flex-grow: 1; /* Permite que o conteúdo cresça */
+  overflow-y: auto; /* Habilita o scroll vertical quando necessário */
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  background-color: #f9fafb;
+}
+@media (min-width: 820px) { .content { grid-template-columns: 3fr 2fr; } }
+
+.mainForm { display: flex; flex-direction: column; gap: 1.5rem; }
+.formGrid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 640px) { .formGrid { grid-template-columns: 1fr 1fr; } }
+.sectionTitle { font-size: 1rem; font-weight: 600; color: #111827; margin-bottom: 0.75rem; padding-bottom: 0.5rem; }
+
+/* === ESTILOS DE FORMULÁRIO (INPUTS, LABELS, ETC) === */
+.formGroup { display: flex; flex-direction: column; }
+.formGroup label { font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #374151; }
+.formGroup input, .formGroup select, .formGroup textarea {
+  width: 100%; padding: 0.75rem; border: 1px solid #d1d5db;
+  border-radius: var(--radius-md); font-size: 0.9rem; background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.formGroup input:focus, .formGroup select:focus, .formGroup textarea:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.1);
+}
+
+/* === GRUPO DE NOVA CATEGORIA ELEGANTE === */
+.newCategoryGroup { display: flex; gap: 0.5rem; align-items: center; background-color: #f3f4f6; padding: 0.5rem; border-radius: var(--radius-md); border: 1px solid #e5e7eb; }
+.newCategoryGroup input { flex-grow: 1; border: none; background-color: transparent; padding: 0.25rem; }
+.newCategoryGroup input:focus { outline: none; box-shadow: none; }
+.saveCategoryButton { padding: 0.5rem; border-radius: var(--radius-md); color: #374151; background-color: #fff; border: 1px solid #d1d5db; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.saveCategoryButton:hover { background-color: var(--color-primary); color: #fff; border-color: var(--color-primary-light); }
+
+/* === SEÇÃO DE TAMANHOS (ACORDEÃO POLIDO) === */
+.variationsSection { display: flex; flex-direction: column; gap: 0.5rem; }
+.variationItem { background-color: #fff; border: 1px solid #e5e7eb; border-radius: var(--radius-md); transition: all 0.3s ease; overflow: hidden; }
+.variationItem.variationActive { border-color: rgba(128, 0, 32, 0.3); box-shadow: 0 4px 12px rgba(128, 0, 32, 0.08); }
+.variationHeader { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; cursor: pointer; font-weight: 500; }
+.variationHeader span { flex-grow: 1; }
+.variationHeader svg { transition: transform 0.3s ease; }
+.variationActive .variationHeader svg { transform: rotate(180deg); }
+.variationHeader input[type="checkbox"] { width: 1.25rem; height: 1.25rem; accent-color: var(--color-primary); }
+.variationContent { max-height: 0; overflow: hidden; padding: 0 1rem; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; }
+.variationActive .variationContent { max-height: 500px; padding: 1rem; padding-top: 0.5rem; border-top: 1px solid #f0f0f0; display: grid; grid-template-columns: 100px 1fr; gap: 1rem; }
+
+/* === PAINEL LATERAL (STATUS, IMAGENS) === */
+.sidePanel { display: flex; flex-direction: column; gap: 1.5rem; }
+.statusGroup { padding: 1rem; background-color: #fff; border: 1px solid #e5e7eb; border-radius: var(--radius-lg); display: flex; justify-content: space-between; align-items: center; }
+.statusGroup > span { font-weight: 500; font-size: 0.9rem; }
+.statusControl { display: flex; align-items: center; gap: 0.75rem; }
+.statusControl span { font-weight: 600; transition: color 0.3s; }
+.statusActive { color: #059669; }
+.statusInactive { color: #9ca3af; }
+
+/* === BOTÕES DO RODAPÉ COM FEEDBACK CLARO === */
+.clearButton, .cancelButton, .saveButton { padding: 0.6rem 1.2rem; border-radius: var(--radius-md); font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+.clearButton { color: #6b7280; background-color: transparent; }
+.clearButton:hover { background-color: #f3f4f6; color: #111827; }
+.cancelButton { background-color: #fff; border: 1px solid #d1d5db; }
+.cancelButton:hover { background-color: #f9fafb; border-color: #9ca3af; }
+.saveButton { background-color: var(--color-primary); color: var(--color-primary-foreground); display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); }
+.saveButton:hover:not(:disabled) { background-color: var(--color-primary-light); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); }
+.saveButton:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.spinner { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

@@ -1,59 +1,25 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import ProductCard from "@/components/ProductCard/ProductCard";
+import api from "@/services/api.service";
 import styles from "./page.module.css";
-
-const produtos = [
-  {
-    id: 1,
-    nome: "Blazer Vintage Borgonha",
-    preco: 189.90,
-    imagem: "/produto-1.jpg",
-    categoria: "Casacos"
-  },
-  {
-    id: 2,
-    nome: "Blusa Clássica Creme",
-    preco: 89.90,
-    imagem: "/produto-2.jpg",
-    categoria: "Blusas"
-  },
-  {
-    id: 3,
-    nome: "Calça Alfaiataria Preta",
-    preco: 129.90,
-    imagem: "/produto-3.jpg",
-    categoria: "Calças"
-  },
-  {
-    id: 4,
-    nome: "Blazer Vintage Borgonha",
-    preco: 189.90,
-    imagem: "/produto-1.jpg",
-    categoria: "Casacos"
-  },
-  {
-    id: 5,
-    nome: "Blusa Clássica Creme",
-    preco: 89.90,
-    imagem: "/produto-2.jpg",
-    categoria: "Blusas"
-  },
-  {
-    id: 6,
-    nome: "Calça Alfaiataria Preta",
-    preco: 129.90,
-    imagem: "/produto-3.jpg",
-    categoria: "Calças"
-  }
-];
 
 export const metadata = {
   title: "Loja | ReVeste-se",
   description: "Explore nossa coleção de peças vintage selecionadas com cuidado.",
 };
 
-export default function Loja() {
+export default async function Loja() {
+  let produtos = [];
+
+  try {
+    // Agora, esta chamada retornará diretamente o array de produtos
+    produtos = await api.getProducts();
+  } catch (error) {
+    console.error("Falha ao carregar produtos da loja:", error.message);
+    // Em caso de erro, 'produtos' permanecerá um array vazio, evitando o erro .map()
+  }
+
   return (
     <div className={styles.pageWrapper}>
       <Header />
@@ -71,8 +37,16 @@ export default function Loja() {
         <section className={styles.produtosSection}>
           <div className="container">
             <div className={styles.produtosGrid}>
+              {/* Agora 'produtos' é um array e o .map() funcionará */}
               {produtos.map((produto) => (
-                <ProductCard key={produto.id} produto={produto} />
+                <ProductCard 
+                  key={produto.id} 
+                  produto={{
+                    ...produto,
+                    // Garante que a prop 'imagem' seja passada para o ProductCard
+                    imagem: produto.imagens[0] || '/placeholder.jpg' 
+                  }} 
+                />
               ))}
             </div>
           </div>

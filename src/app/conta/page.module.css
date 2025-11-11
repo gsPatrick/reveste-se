@@ -75,3 +75,24 @@
 .cardButton:hover {
   background-color: var(--color-primary-light);
 }
+
+/* Reutilizando estilos do login para consistência */
+.pageWrapper, .main { /* ... */ }
+.registerSection { padding: 4rem 0; background-color: var(--color-background); min-height: 70vh; display: flex; align-items: center; }
+.registerContainer { max-width: 28rem; margin: 0 auto; width: 100%; }
+.pageTitle { font-size: 2rem; font-weight: 700; margin-bottom: 2rem; text-align: center; }
+.registerForm { background-color: #fff; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.formGroup { margin-bottom: 1.5rem; }
+.formGroup label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+.formGroup input { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: var(--radius-md); }
+.submitButton {
+  width: 100%; padding: 0.875rem; font-size: 1rem; font-weight: 600;
+  background-color: var(--color-primary); color: #fff; border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.submitButton:disabled { opacity: 0.7; }
+.spinner { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loginText { margin-top: 1.5rem; text-align: center; }
+.loginLink { color: var(--color-primary); font-weight: 600; }
+.errorText { color: #dc3545; background-color: #f8d7da; padding: 0.75rem; margin-bottom: 1rem; border-radius: var(--radius-md); }
