@@ -17,12 +17,10 @@ const API_BASE_URL = 'https://geral-revesteseapi.r954jc.easypanel.host/api';
 async function fetchApi(endpoint, options = {}, isProtected = false) {
   const url = `${API_BASE_URL}${endpoint}`;
   
-  const headers = {
-    'Content-Type': 'application/json',
-    ...options.headers,
-  };
+  // --- CORREÇÃO PRINCIPAL AQUI ---
+  // Inicia os headers. Não definimos Content-Type ainda.
+  const headers = { ...options.headers };
 
-  // Injeta o token de autenticação se a rota for protegida
   if (isProtected) {
     try {
       const token = localStorage.getItem('authToken');
@@ -32,7 +30,7 @@ async function fetchApi(endpoint, options = {}, isProtected = false) {
         throw new Error("Token de autenticação não encontrado para rota protegida.");
       }
     } catch (error) {
-        console.warn("localStorage não está disponível. A chamada autenticada pode falhar.");
+        console.warn("localStorage não disponível.");
     }
   }
 
@@ -41,26 +39,30 @@ async function fetchApi(endpoint, options = {}, isProtected = false) {
     ...options,
     headers,
   };
-  
+
+  // Se o corpo NÃO é FormData, então definimos o Content-Type para JSON.
+  // Se for FormData, o próprio navegador definirá o Content-Type correto com o boundary.
+  if (!(config.body instanceof FormData)) {
+    config.headers['Content-Type'] = 'application/json';
+  }
+  // ------------------------------------
+
   if (config.method && config.method !== 'GET') {
     config.cache = 'no-store';
   }
 
   try {
     const response = await fetch(url, config);
-
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      const errorMessage = errorData.erro || `Erro na API: ${response.status} ${response.statusText}`;
+      const errorMessage = errorData.message || errorData.erro || `Erro na API: ${response.status} ${response.statusText}`;
       throw new Error(errorMessage);
     }
-    
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.indexOf("application/json") !== -1) {
         return await response.json();
     }
     return {};
-
   } catch (error) {
     console.error(`[API Service] Erro ao chamar ${url}:`, error.message);
     throw error;

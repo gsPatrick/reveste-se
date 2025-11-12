@@ -8,8 +8,7 @@ import ToggleSwitch from './ToggleSwitch';
 import ImageUpload from './ImageUpload';
 import styles from './ProductModal.module.css';
 
-// Usar um reducer para gerenciar o estado complexo do formulário principal
-// Isso torna as atualizações de estado mais previsíveis e centralizadas
+// Reducer para gerenciar o estado complexo do formulário principal
 const formReducer = (state, action) => {
   switch (action.type) {
     case 'SET_FIELD':
@@ -89,7 +88,6 @@ export default function ProductModal({ isOpen, onClose, onProductCreated }) {
   const handleCategoryChange = (e) => {
     if (e.target.value === 'new') {
       setShowNewCategory(true);
-      // Limpa a seleção de categoria para não enviar um ID inválido
       dispatch({ type: 'SET_FIELD', field: 'categoriaId', value: '' });
     } else {
       setShowNewCategory(false);
@@ -105,7 +103,6 @@ export default function ProductModal({ isOpen, onClose, onProductCreated }) {
     try {
       const newCategory = await api.createCategory({ nome: newCategoryName });
       setCategories(prev => [...prev, newCategory]);
-      // Seleciona automaticamente a nova categoria
       dispatch({ type: 'SET_FIELD', field: 'categoriaId', value: newCategory.id });
       setShowNewCategory(false);
       setNewCategoryName('');
@@ -122,28 +119,19 @@ export default function ProductModal({ isOpen, onClose, onProductCreated }) {
     setStatus('creating');
 
     try {
-      // --- CORREÇÃO PRINCIPAL AQUI ---
-      // Montamos o payload com os dados mais recentes do estado 'state'
-      // garantindo que o preço seja convertido para número.
+      // ETAPA 1: Criar o produto principal com dados JSON
       const productPayload = {
         nome: state.nome,
-        preco: parseFloat(state.preco) || 0, // Garante que o preço seja um número
+        preco: parseFloat(state.preco) || 0,
         descricao: state.descricao,
         categoriaId: state.categoriaId ? parseInt(state.categoriaId) : null,
         ativo: state.ativo,
       };
       
-      // Validação rápida para garantir que os campos obrigatórios não estão vazios
-      if (!productPayload.nome || !productPayload.preco) {
-        throw new Error("Nome e Preço são campos obrigatórios.");
-      }
-      // ------------------------------------
-
-      // 1. Cria o produto principal com o payload corrigido
       const newProduct = await api.createProduct(productPayload);
-      showToast(`Produto "${newProduct.nome}" criado com sucesso!`, 'success');
+      showToast(`Produto "${newProduct.nome}" criado!`, 'success');
 
-      // 2. Prepara e envia as variações (tamanhos) que foram ativadas
+      // ETAPA 2: Criar as variações em lote (também com JSON)
       const activeVariations = variations
         .filter(v => v.ativo)
         .map(v => ({
@@ -158,11 +146,12 @@ export default function ProductModal({ isOpen, onClose, onProductCreated }) {
         showToast('Tamanhos salvos com sucesso!', 'success');
       }
 
-      // 3. Envia as imagens (se houver)
+      // ETAPA 3: Enviar as imagens (como FormData)
       if (filesToUpload.length > 0) {
         setStatus('uploading');
         const formData = new FormData();
         filesToUpload.forEach(file => formData.append('files', file));
+        
         await api.uploadProductImages(newProduct.id, formData);
         showToast(`${filesToUpload.length} imagem(ns) enviada(s) com sucesso!`, 'success');
       }
@@ -177,7 +166,7 @@ export default function ProductModal({ isOpen, onClose, onProductCreated }) {
     }
   };
 
-  // Função auxiliar para o texto dinâmico do botão de salvar
+  // Função auxiliar para o texto dinâmico do botão
   const getButtonText = () => {
     if (status === 'creating') return 'Salvando produto...';
     if (status === 'creating_variations') return 'Salvando tamanhos...';
@@ -191,11 +180,10 @@ export default function ProductModal({ isOpen, onClose, onProductCreated }) {
         <form onSubmit={handleSubmit}>
           <div className={styles.header}>
             <h2>Novo Produto</h2>
-            <button type-="button" onClick={onClose} className={styles.closeButton}><X size={24} /></button>
+            <button type="button" onClick={onClose} className={styles.closeButton}><X size={24} /></button>
           </div>
 
           <div className={styles.content}>
-            {/* PAINEL ESQUERDO: DADOS PRINCIPAIS */}
             <div className={styles.mainForm}>
               <div className={styles.formGroup}>
                 <label>Nome do Produto</label>
@@ -228,31 +216,31 @@ export default function ProductModal({ isOpen, onClose, onProductCreated }) {
               
               <div className={styles.variationsSection}>
                 <h3 className={styles.sectionTitle}>Tamanhos e Estoque</h3>
-                {variations.map((v, index) => (
-                  <div key={v.nome} className={`${styles.variationItem} ${v.ativo ? styles.variationActive : ''}`}>
-                    <label className={styles.variationHeader}>
-                      <input type="checkbox" checked={v.ativo} onChange={(e) => handleVariationChange(index, 'ativo', e.target.checked)} />
-                      <span>Tamanho {v.nome}</span>
-                      {v.ativo ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                    </label>
-                    {v.ativo && (
-                      <div className={styles.variationContent}>
-                        <div className={styles.formGroup}>
-                          <label>Estoque</label>
-                          <input type="number" min="0" placeholder="0" value={v.estoque} onChange={(e) => handleVariationChange(index, 'estoque', e.target.value)} />
+                <div className={styles.variationsGrid}>
+                  {variations.map((v, index) => (
+                    <div key={v.nome} className={`${styles.variationItem} ${v.ativo ? styles.variationActive : ''}`}>
+                      <label className={styles.variationHeader}>
+                        <input type="checkbox" checked={v.ativo} onChange={(e) => handleVariationChange(index, 'ativo', e.target.checked)} />
+                        <span>Tamanho {v.nome}</span>
+                      </label>
+                      {v.ativo && (
+                        <div className={styles.variationContent}>
+                          <div className={styles.formGroup}>
+                            <label>Estoque</label>
+                            <input type="number" min="0" placeholder="0" value={v.estoque} onChange={(e) => handleVariationChange(index, 'estoque', e.target.value)} />
+                          </div>
+                          <div className={styles.formGroup}>
+                            <label>Medidas</label>
+                            <textarea rows="3" placeholder="Ex: Busto: 90cm..." value={v.medidas} onChange={(e) => handleVariationChange(index, 'medidas', e.target.value)} />
+                          </div>
                         </div>
-                        <div className={styles.formGroup}>
-                          <label>Medidas (texto descritivo)</label>
-                          <textarea rows="3" placeholder="Ex: Busto: 90cm, Cintura: 70cm..." value={v.medidas} onChange={(e) => handleVariationChange(index, 'medidas', e.target.value)} />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* PAINEL DIREITO: STATUS E IMAGENS */}
             <div className={styles.sidePanel}>
               <div className={styles.statusGroup}>
                 <span>Status do Produto</span>

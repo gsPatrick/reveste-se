@@ -1,61 +1,102 @@
+// /app/produto/[id]/page.js
+
+import api from '@/services/api.service';
 import ProdutoClient from './ProdutoClient';
+import { notFound } from 'next/navigation';
+import { use } from 'react'; // Importe o hook 'use' do React
 
-// Mock de dados do produto - Esta função agora vive no servidor
-const getProduto = (id) => {
-  const produtos = {
-    "1": {
-      id: 1,
-      nome: "Blazer Vintage Borgonha",
-      preco: 189.90,
-      imagem: "/produto-1.jpg",
-      categoria: "Casacos",
-      descricao: "Blazer vintage em tom borgonha, perfeito para compor looks elegantes e atemporais. Tecido de alta qualidade com excelente caimento.",
-      tamanhos: ["P", "M", "G"],
-      condicao: "Excelente",
-      material: "Lã e Poliéster"
-    },
-    "2": {
-      id: 2,
-      nome: "Blusa Clássica Creme",
-      preco: 89.90,
-      imagem: "/produto-2.jpg",
-      categoria: "Blusas",
-      descricao: "Blusa clássica em tom creme, versátil e confortável. Ideal para o dia a dia ou ocasiões especiais.",
-      tamanhos: ["P", "M", "G"],
-      condicao: "Excelente",
-      material: "Algodão"
-    },
-    "3": {
-      id: 3,
-      nome: "Calça Alfaiataria Preta",
-      preco: 129.90,
-      imagem: "/produto-3.jpg",
-      categoria: "Calças",
-      descricao: "Calça de alfaiataria preta, corte reto e elegante. Perfeita para looks formais e profissionais.",
-      tamanhos: ["36", "38", "40", "42"],
-      condicao: "Excelente",
-      material: "Poliéster e Elastano"
-    }
-  };
-  
-  return produtos[id] || produtos["1"];
-};
-
-// A função generateMetadata continua aqui, pois é executada no servidor
+/**
+ * generateMetadata - Função para gerar metadados de SEO.
+ * Ela é 'async', então podemos usar 'await' normalmente aqui.
+ */
 export async function generateMetadata({ params }) {
-  const produto = getProduto(params.id);
-  
-  return {
-    title: `${produto.nome} | ReVeste-se`,
-    description: produto.descricao,
-  };
+  try {
+    const identifier = params.id;
+    if (!identifier || identifier === 'undefined') {
+      throw new Error("Identificador de produto inválido.");
+    }
+
+    const produto = await api.getProductByIdOrSlug(identifier);
+
+    if (!produto) {
+      throw new Error("Produto não encontrado na API.");
+    }
+    
+    const imageUrl = (produto.imagens && produto.imagens.length > 0)
+      ? produto.imagens[0]
+      : '/placeholder-og.jpg';
+
+    return {
+      title: `${produto.nome} | ReVeste-se`,
+      description: produto.descricao || `Compre ${produto.nome}. Peças vintage de qualidade que contam histórias.`,
+      openGraph: {
+        title: `${produto.nome} | ReVeste-se`,
+        description: produto.descricao || "Peças vintage de qualidade que contam histórias.",
+        images: [{ url: imageUrl, width: 1200, height: 630, alt: produto.nome }],
+      },
+    };
+  } catch (error) {
+    console.error("[generateMetadata] Erro:", error.message);
+    return {
+      title: "Produto não encontrado | ReVeste-se",
+      description: "O produto que você está procurando não existe ou foi removido.",
+    };
+  }
 }
 
-// Este é o Componente de Servidor da página
+/**
+ * Componente de Servidor da página.
+ * AVISO: Note que este componente NÃO É MAIS 'async'. O hook 'use' substitui o 'await'.
+ */
 export default function ProdutoPage({ params }) {
-  // 1. Resolvemos os dados no servidor
-  const produto = getProduto(params.id);
-  
-  // 2. Passamos os dados resolvidos para o Componente de Cliente
-  return <ProdutoClient produto={produto} />;
+  // --- MUDANÇA CRÍTICA AQUI ---
+  // O erro do Next.js diz que 'params' é uma Promise.
+  // Usamos o hook 'use()' do React para "desembrulhar" a Promise de forma síncrona.
+  // Isso é um padrão moderno para Componentes de Servidor.
+  const resolvedParams = use(params);
+  const identifier = resolvedParams.id;
+
+  // O restante do seu fluxo de dados agora vai para um subcomponente assíncrono.
+  // Isso mantém a organização e permite o tratamento de erros adequado.
+  return <ProdutoLoader identifier={identifier} />;
+}
+
+/**
+ * Subcomponente assíncrono para carregar os dados do produto.
+ * Este é o novo local onde a chamada à API é feita.
+ */
+async function ProdutoLoader({ identifier }) {
+  try {
+    if (!identifier || identifier === 'undefined') {
+      notFound();
+    }
+    
+    const produto = await api.getProductByIdOrSlug(identifier);
+
+    if (!produto) {
+      notFound();
+    }
+    
+    const produtoParaCliente = {
+      ...produto,
+      imagem: (produto.imagens && produto.imagens.length > 0) 
+        ? produto.imagens[0] 
+        : '/placeholder.jpg'
+    };
+    
+    return <ProdutoClient produto={produtoParaCliente} />;
+
+  } catch (error) {
+    if (error.message.toLowerCase().includes('não encontrado')) {
+      notFound();
+    }
+    
+    console.error("[ProdutoLoader] Erro crítico:", error.message);
+    return (
+      <div style={{ textAlign: 'center', padding: '5rem', minHeight: '60vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <h1>Erro ao Carregar o Produto</h1>
+        <p>Não foi possível carregar as informações. Tente novamente mais tarde.</p>
+      </div>
+    );
+  }
 }

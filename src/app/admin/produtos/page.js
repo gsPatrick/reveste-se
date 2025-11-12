@@ -4,10 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { PlusCircle } from 'lucide-react';
 import api from '@/services/api.service';
 import { useToast } from '@/context/ToastContext';
-
-// Importe o novo modal que vamos criar
 import ProductModal from '@/components/admin/ProductModal'; 
-
 import styles from '../AdminPages.module.css';
 
 export default function AdminProdutos() {
@@ -16,12 +13,17 @@ export default function AdminProdutos() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { showToast } = useToast();
 
-  // Função para buscar os produtos da API
   const fetchProducts = useCallback(async () => {
     setIsLoading(true);
     try {
-      const data = await api.getProducts({ limit: 100 }); // Puxa até 100 produtos
-      setProducts(data.produtos);
+      // A função api.getProducts já retorna o array de produtos.
+      const productArray = await api.getProducts({ limit: 100 });
+      
+      // --- CORREÇÃO APLICADA AQUI ---
+      // Usamos diretamente a resposta da API, que já é o array.
+      setProducts(productArray);
+      // -----------------------------
+
     } catch (error) {
       showToast("Erro ao carregar produtos.", "error");
     } finally {
@@ -29,14 +31,12 @@ export default function AdminProdutos() {
     }
   }, [showToast]);
 
-  // Busca os produtos quando o componente é montado
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  // Função para ser chamada pelo modal após a criação de um produto
   const handleProductCreated = () => {
-    fetchProducts(); // Re-busca a lista de produtos
+    fetchProducts(); // Re-busca a lista de produtos para exibir o novo item
   };
 
   return (
@@ -49,7 +49,6 @@ export default function AdminProdutos() {
         </button>
       </div>
 
-      {/* Tabela de produtos (simplificada por enquanto) */}
       <div className={styles.tableWrapper}>
         <table>
           <thead>
@@ -63,23 +62,26 @@ export default function AdminProdutos() {
           </thead>
           <tbody>
             {isLoading ? (
-              <tr><td colSpan="5">Carregando...</td></tr>
+              <tr><td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>Carregando produtos...</td></tr>
             ) : (
+              // Agora 'products' é garantidamente um array
               products.map(product => (
                 <tr key={product.id}>
                   <td>{product.nome}</td>
-                  <td>R$ {parseFloat(product.preco).toFixed(2)}</td>
+                  <td>R$ {(parseFloat(product.preco) || 0).toFixed(2)}</td>
                   <td>{product.categoria?.nome || 'N/A'}</td>
                   <td>{product.ativo ? 'Ativo' : 'Inativo'}</td>
                   <td>{/* Botões de Editar/Excluir virão aqui */}</td>
                 </tr>
               ))
             )}
+            {!isLoading && products.length === 0 && (
+                <tr><td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>Nenhum produto encontrado.</td></tr>
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* Renderização condicional do Modal */}
       <ProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
