@@ -4,10 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext"; // 1. Importar o hook de autenticação
 import styles from "./Header.module.css";
 
 export default function Header() {
   const { cartItems } = useCart();
+  const { user } = useAuth(); // 2. Obter as informações do usuário logado
 
   return (
     <header className={styles.header}>
@@ -18,10 +20,8 @@ export default function Header() {
             <Image
               src="/mini-logo.png"
               alt="Logo ReVeste-se com ícone de cabide"
-              // --- MUDANÇA APLICADA AQUI ---
-              // Aumentando o tamanho da logo
-              width={100}  // Aumentado de 30 para 40
-              height={70} // Aumentado de 30 para 40
+              width={40}
+              height={40}
               className={styles.logoIcon}
             />
             <h1>ReVeste-se</h1>
@@ -50,9 +50,20 @@ export default function Header() {
               )}
               <span className="sr-only">Carrinho</span>
             </Link>
-            <Link href="/conta" className={styles.accountButton}>
-              Minha Conta
-            </Link>
+
+            {/* --- MUDANÇA PRINCIPAL AQUI --- */}
+            {/* 3. Lógica condicional para o botão da conta */}
+            {user && user.tipo === 'admin' ? (
+              // Se o usuário está logado E é um admin, mostra "Painel Admin"
+              <Link href="/admin" className={styles.accountButton}>
+                Painel Admin
+              </Link>
+            ) : (
+              // Para todos os outros casos (usuário cliente ou deslogado), mostra "Minha Conta"
+              <Link href="/conta" className={styles.accountButton}>
+                Minha Conta
+              </Link>
+            )}
           </div>
         </div>
       </div>
