@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import styles from "./Header.module.css";
@@ -12,7 +13,17 @@ export default function Header() {
     <header className={styles.header}>
       <div className="container">
         <div className={styles.headerContent}>
+          
           <Link href="/" className={styles.logo}>
+            <Image
+              src="/mini-logo.png"
+              alt="Logo ReVeste-se com ícone de cabide"
+              // --- MUDANÇA APLICADA AQUI ---
+              // Aumentando o tamanho da logo
+              width={100}  // Aumentado de 30 para 40
+              height={70} // Aumentado de 30 para 40
+              className={styles.logoIcon}
+            />
             <h1>ReVeste-se</h1>
           </Link>
           

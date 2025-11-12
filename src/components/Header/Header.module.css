@@ -12,14 +12,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  height: 4.5rem; /* Aumentei um pouco a altura do header para acomodar a logo maior */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* --- MUDANÇA PRINCIPAL AQUI --- */
+.logoIcon {
+  /* 
+    Este filtro CSS faz a mágica:
+    - invert(1): Inverte todas as cores. Preto vira branco, branco vira preto.
+    - brightness(2): Aumenta o brilho, garantindo que o resultado seja um branco puro.
+  */
+  filter: invert(1) brightness(2);
 }
 
 .logo h1 {
-  font-size: 1.5rem;
+  font-size: 1.75rem; /* Aumentei um pouco o texto para acompanhar a logo */
   font-weight: 700;
   color: var(--color-primary);
   transition: color var(--transition-base);
+  margin: 0;
 }
 
 .logo:hover h1 {

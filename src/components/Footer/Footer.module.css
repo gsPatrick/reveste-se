@@ -1,13 +1,14 @@
 .footer {
   background-color: var(--color-primary);
   color: var(--color-primary-foreground);
+  padding: 3rem 0 2rem; /* Ajustei o padding inferior */
 }
 
 .footerContent {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-  padding: 3rem 0;
+  padding-bottom: 2rem; /* Movido o padding para cá */
 }
 
 @media (min-width: 768px) {
@@ -21,11 +22,16 @@
   flex-direction: column;
 }
 
-.footerTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
+/* --- NOVOS ESTILOS PARA A LOGO --- */
+.footerLogoContainer {
   margin-bottom: 1rem;
 }
+
+.footerLogo {
+  /* Mantém a cor original da imagem, que deve ser branca */
+  filter: none; 
+}
+
 
 .footerDescription {
   font-size: 0.875rem;
@@ -75,14 +81,41 @@
   height: 1.25rem;
 }
 
+/* --- ESTILOS ATUALIZADOS PARA O RODAPÉ INFERIOR --- */
 .footerBottom {
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(250, 248, 245, 0.2);
-  text-align: center;
+  display: flex;
+  flex-direction: column; /* Empilha em telas pequenas */
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem; /* Espaço entre as linhas */
+}
+
+/* Em telas maiores, coloca os textos lado a lado */
+@media (min-width: 768px) {
+  .footerBottom {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
 .footerBottom p {
   font-size: 0.875rem;
   opacity: 0.9;
+  margin: 0; /* Remove margem padrão do parágrafo */
+}
+
+/* --- NOVOS ESTILOS PARA O CRÉDITO DO DESENVOLVEDOR --- */
+.developerCredit a {
+  font-weight: 600;
+  color: inherit; /* Herda a cor branca do texto */
+  text-decoration: none;
+  transition: opacity var(--transition-base);
+}
+
+.developerCredit a:hover {
+  opacity: 1;
+  text-decoration: underline;
 }
